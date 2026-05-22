@@ -1,0 +1,111 @@
+*mdview.txt*  View markdown files with formatted rendering
+
+License: MIT
+
+==============================================================================
+COMMANDS                                                        *mdview-commands*
+
+:MdView                                                         *:MdView*
+        Open the formatted view for the current buffer.
+
+:MdViewToggle                                                   *:MdViewToggle*
+        Toggle the formatted view on/off.
+
+:MdViewExport {file}                                            *:MdViewExport*
+        Render the current source markdown and write the formatted text to
+        {file}.
+
+==============================================================================
+KEYS IN THE VIEW BUFFER                                         *mdview-keys*
+
+q                       Close the view.
+a                       Close the view.
+i                       Close the view.
+gx                      Open the URL under (or near) the cursor.
+]]                      Jump to next section header.
+[[                      Jump to previous section header.
+zo, zc, zM, zR          Standard Vim folding (folds are by header level).
+
+==============================================================================
+CONFIGURATION                                                   *mdview-config*
+
+                                                        *g:mdview_max_col_width*
+g:mdview_max_col_width          (default: 20)
+        Maximum character width for a single table column. Cells wrap.
+
+                                                        *g:mdview_max_width*
+g:mdview_max_width              (default: -1 = window width)
+        Override the overall render width used for HR lines and code block
+        borders. -1 means use winwidth(0) - 2.
+
+                                                        *g:mdview_open*
+g:mdview_open                   (default: 'replace')
+        Buffer placement for the scratch view:
+          'replace' — fill the current window
+          'split'   — open in a horizontal split below
+          'vsplit'  — open in a vertical split on the right
+          'tab'     — open in a new tab
+
+                                                        *g:mdview_colors*
+g:mdview_colors                 (default: {})
+        Dictionary mapping highlight group names to user highlight specs,
+        applied after the built-in defaults. Example: >
+            let g:mdview_colors = {
+                  \ 'MdViewH1': 'gui=bold ctermfg=Red guifg=#FF5555',
+                  \ 'MdViewLink': 'gui=underline ctermfg=Cyan',
+                  \ }
+<
+                                                        *g:mdview_strip_html*
+g:mdview_strip_html             (default: 1)
+        Strip simple HTML tags (<br>, <sub>, <sup>, <em>, <strong>, ...).
+
+                                                        *g:mdview_auto_refresh*
+g:mdview_auto_refresh           (default: 1)
+        Re-render the visible view when the underlying source file is
+        written or changed on disk.
+
+==============================================================================
+RENDERED ELEMENTS                                               *mdview-elements*
+
+  Headers           ATX (#…) and Setext (===/---). H1/H2 get underlines.
+  Tables            ASCII box borders; cells wrap; |:---:| alignment honored.
+  Code blocks       Fenced ``` shown in ',-- lang / `── borders.
+  Bold              **text** / __text__ -> bold highlight, markers stripped.
+  Italic            *text* / _text_ -> italic, with word-boundary rules.
+  Inline code       `text`
+  Strikethrough     ~~text~~
+  Links             [text](url) -> text (url) with underline.
+  Reference links   [text][ref] resolved against [ref]: url definitions.
+  Auto-links        <https://example.com> -> https://example.com
+  Images            ![alt](url) -> [Image: alt] (url)
+  Task lists        - [ ] todo -> ☐ todo;  - [x] done -> ☑ done
+  Lists             - / * / + bullets, nested with ◦, numbered preserved.
+  Blockquotes       > text -> │ text
+  Horizontal rule   --- / *** / ___ -> full-width ─
+  Front matter      YAML/TOML between --- or +++ at top -> framed block.
+  Footnotes         [^N] and [^N]: definition -> appendix at end.
+  Definition lists  term followed by ': definition' -> term + ▸ definition.
+  Math              $inline$ and $$display$$ highlighted as identifier.
+
+==============================================================================
+HOOKS                                                           *mdview-hooks*
+
+User autocmd events fire around render: >
+
+    autocmd User MdViewPreRender  echo 'about to render'
+    autocmd User MdViewPostRender echo 'render complete'
+
+==============================================================================
+HIGHLIGHT GROUPS                                                *mdview-highlights*
+
+    MdViewH1 / H2 / H3
+    MdViewBold MdViewItalic MdViewStrike MdViewCode MdViewLink
+    MdViewMath MdViewFootnote MdViewDefTerm
+    MdViewTableBorder MdViewCodeFence MdViewCodeBlock
+    MdViewBlockquote MdViewFrontMatter MdViewHR
+
+All link to standard groups (Comment, Special, String, Underlined, ...) so
+your colorscheme drives the appearance.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:

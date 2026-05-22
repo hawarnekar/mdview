@@ -5,6 +5,8 @@ buffer with properly formatted headers, tables, lists, code blocks, and
 inline styling. Pure Vimscript, no external dependencies, works in Vim 8+
 and Neovim.
 
+This plugin was completed developed using Anthropic Claude CLI.
+
 ## Install
 
 Using your favorite plugin manager, point it at this directory or repo.

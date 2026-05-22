@@ -11,7 +11,7 @@ Using your favorite plugin manager, point it at this directory or repo.
 With vim-plug:
 
 ```vim
-Plug '<owner>/mdview'
+Plug 'hawarnekar/mdview'
 ```
 
 Or copy the `plugin/`, `autoload/`, `syntax/`, and `doc/` folders into your
